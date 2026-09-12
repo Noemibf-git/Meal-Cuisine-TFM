@@ -65,3 +65,25 @@ export async function logout() {
   })
   localStorage.removeItem('token')
 }
+
+export async function register(
+  username: string,
+  email: string,
+  password: string,
+  password_confirmation: string,
+) {
+  const response = await fetch(`${baseUrl}/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username,
+      email,
+      password,
+      password_confirmation,
+    }),
+  })
+
+  if (!response.ok) {
+    throw new Error('No se ha podido crear la cuenta')
+  }
+}
