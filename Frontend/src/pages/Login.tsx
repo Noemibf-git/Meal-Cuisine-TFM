@@ -1,18 +1,22 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router'
 import { login } from '../api/client'
+import { useAuth } from '../context/AuthContext'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const navigate = useNavigate()
+  const { setUser } = useAuth()
+
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
     try {
-      await login(email, password)
+      const loggedUser = await login(email, password)
+      setUser(loggedUser)
       navigate('/')
     } catch {
       setError('Email o contraseña incorrectos')

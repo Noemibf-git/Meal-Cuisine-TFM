@@ -1,6 +1,17 @@
-import type { AuthResponse } from '../types/User'
+import type { AuthResponse, User } from '../types/User'
 
 const baseUrl = import.meta.env.VITE_API_URL
+
+function authHeaders(): HeadersInit {
+  const token = localStorage.getItem('token')
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  }
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+  return headers
+}
 
 export async function getRecipes() {
   const response = await fetch(`${baseUrl}/recipes`)
@@ -33,4 +44,24 @@ export async function login(email: string, password: string) {
   const data: AuthResponse = await response.json()
   localStorage.setItem('token', data.token)
   return data.user
+}
+
+
+export async function getMe() {
+  const response = await fetch(`${baseUrl}/me`, {
+    headers: authHeaders(),
+  })
+  if (!response.ok) {
+    localStorage.removeItem('token')
+    throw new Error('Sesión no válida')
+  }
+  return response.json() as Promise<User>
+}
+
+export async function logout() {
+  await fetch(`${baseUrl}/logout`, {
+    method: 'POST',
+    headers: authHeaders(),
+  })
+  localStorage.removeItem('token')
 }
