@@ -2,6 +2,8 @@ import { Routes, Route, Link } from 'react-router'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import RecipeDetail from './pages/RecipeDetail'
+
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/recetas/:id" element={<RecipeDetail />} />
+
         </Routes>
       </main>
     </>
