@@ -3,4 +3,21 @@ export type Recipe = {
   title: string
   description: string | null
   imagen: string | null
+  ingredients?: RecipeIngredient[]
+  steps?: RecipeStep[]
+}
+
+export type RecipeIngredient = {
+  id: number
+  name: string
+  pivot: {
+    quantity: number
+    unit: string | null
+  }
+}
+
+export type RecipeStep = {
+  id: number
+  step_number: number
+  description: string
 }

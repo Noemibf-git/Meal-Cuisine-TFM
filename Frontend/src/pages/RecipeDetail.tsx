@@ -25,6 +25,30 @@ export default function RecipeDetail() {
       </p>
       <h1>{recipe.title}</h1>
       {recipe.description ? <p>{recipe.description}</p> : null}
+
+      {recipe.ingredients && recipe.ingredients.length > 0 ? (
+        <>
+          <h2>Ingredientes</h2>
+          <ul>
+            {recipe.ingredients.map((ingredient) => (
+              <li key={ingredient.id}>
+                {ingredient.pivot.quantity} {ingredient.pivot.unit ?? ''} {ingredient.name}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+
+      {recipe.steps && recipe.steps.length > 0 ? (
+        <>
+          <h2>Pasos</h2>
+          <ol>
+            {recipe.steps.map((step) => (
+              <li key={step.id}>{step.description}</li>
+            ))}
+          </ol>
+        </>
+      ) : null}
     </article>
   )
 }
