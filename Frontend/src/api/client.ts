@@ -1,4 +1,5 @@
 import type { AuthResponse, User } from '../types/User'
+import type { Recipe } from '../types/recipe'
 
 const baseUrl = import.meta.env.VITE_API_URL
 
@@ -86,4 +87,20 @@ export async function register(
   if (!response.ok) {
     throw new Error('No se ha podido crear la cuenta')
   }
+}
+export async function createRecipe(payload: {
+  title: string
+  description: string | null
+  ingredients: { name: string; quantity: number; unit: string | null }[]
+  steps: { step_number: number; description: string }[]
+}) {
+  const response = await fetch(`${baseUrl}/recipes`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  })
+  if (!response.ok) {
+    throw new Error('No se ha podido crear la receta')
+  }
+  return response.json() as Promise<Recipe>
 }

@@ -188,6 +188,6 @@ class RecipesController extends Controller
 
     private function normalizeIngredientName(string $name): string
     {
-        return strtolower(str_replace(' ', '-', trim($name)));
+        return strtolower(str_replace(trim($name)));
     }
 }

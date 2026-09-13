@@ -4,6 +4,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import RecipeDetail from './pages/RecipeDetail'
 import { useAuth } from './context/AuthContext'
+import CreateRecipe from './pages/CreateRecipe'
 
 
 function App() {
@@ -18,6 +19,8 @@ function App() {
               {user ? (
                 <>
                   <span>Hola, {user.username}</span>
+                  {' | '}
+                  <Link to="/recetas/nueva">Nueva receta</Link>
                   {' | '}
                   <button type="button" onClick={() => logout()}>
                     Salir
@@ -38,7 +41,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/recetas/:id" element={<RecipeDetail />} />
-
+            <Route path="/recetas/nueva" element={<CreateRecipe />} />
+            <Route path="/recetas/:id" element={<RecipeDetail />} />
           </Routes>
         </main>
       </>
