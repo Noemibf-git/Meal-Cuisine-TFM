@@ -1,70 +1,68 @@
-import type { AuthResponse, User } from '../types/User'
-import type { Recipe } from '../types/recipe'
+import type { AuthResponse, User } from "../types/User";
+import type { Recipe } from "../types/recipe";
 
-const baseUrl = import.meta.env.VITE_API_URL
+const baseUrl = import.meta.env.VITE_API_URL;
 
 function authHeaders(): HeadersInit {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  }
+    "Content-Type": "application/json",
+  };
   if (token) {
-    headers.Authorization = `Bearer ${token}`
+    headers.Authorization = `Bearer ${token}`;
   }
-  return headers
+  return headers;
 }
 
 export async function getRecipes() {
-  const response = await fetch(`${baseUrl}/recipes`)
+  const response = await fetch(`${baseUrl}/recipes`);
   if (!response.ok) {
-    throw new Error('No se han podido cargar las recetas')
+    throw new Error("No se han podido cargar las recetas");
   }
-  return response.json()
+  return response.json();
 }
 
 export async function getRecipe(id: number) {
-  const response = await fetch(`${baseUrl}/recipes/${id}`)
+  const response = await fetch(`${baseUrl}/recipes/${id}`);
   if (!response.ok) {
-    throw new Error('No se ha podido cargar la receta')
+    throw new Error("No se ha podido cargar la receta");
   }
-  return response.json()
+  return response.json();
 }
-
 
 export async function login(email: string, password: string) {
   const response = await fetch(`${baseUrl}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
-  })
+  });
 
   if (!response.ok) {
-    throw new Error('Email o contraseña incorrectos')
+    throw new Error("Email o contraseña incorrectos");
   }
 
-  const data: AuthResponse = await response.json()
-  localStorage.setItem('token', data.token)
-  return data.user
+  const data: AuthResponse = await response.json();
+  localStorage.setItem("token", data.token);
+  return data.user;
 }
-
 
 export async function getMe() {
   const response = await fetch(`${baseUrl}/me`, {
     headers: authHeaders(),
-  })
+  });
   if (!response.ok) {
-    localStorage.removeItem('token')
-    throw new Error('Sesión no válida')
+    localStorage.removeItem("token");
+    throw new Error("Sesión no válida");
   }
-  return response.json() as Promise<User>
+  return response.json() as Promise<User>;
 }
 
 export async function logout() {
   await fetch(`${baseUrl}/logout`, {
-    method: 'POST',
+    method: "POST",
     headers: authHeaders(),
-  })
-  localStorage.removeItem('token')
+  });
+  localStorage.removeItem("token");
 }
 
 export async function register(
@@ -74,33 +72,42 @@ export async function register(
   password_confirmation: string,
 ) {
   const response = await fetch(`${baseUrl}/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       username,
       email,
       password,
       password_confirmation,
     }),
-  })
+  });
 
   if (!response.ok) {
-    throw new Error('No se ha podido crear la cuenta')
+    throw new Error("No se ha podido crear la cuenta");
   }
 }
 export async function createRecipe(payload: {
-  title: string
-  description: string | null
-  ingredients: { name: string; quantity: number; unit: string | null }[]
-  steps: { step_number: number; description: string }[]
+  title: string;
+  description: string | null;
+  ingredients: { name: string; quantity: number; unit: string | null }[];
+  steps: { step_number: number; description: string }[];
 }) {
   const response = await fetch(`${baseUrl}/recipes`, {
-    method: 'POST',
+    method: "POST",
     headers: authHeaders(),
     body: JSON.stringify(payload),
-  })
+  });
   if (!response.ok) {
-    throw new Error('No se ha podido crear la receta')
+    throw new Error("No se ha podido crear la receta");
   }
-  return response.json() as Promise<Recipe>
+  return response.json() as Promise<Recipe>;
+}
+export async function deleteRecipe(id: number) {
+  const response = await fetch(`${baseUrl}/recipes/${id}`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error("No se ha podido borrar la receta");
+  }
 }

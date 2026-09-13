@@ -5,6 +5,8 @@ export type Recipe = {
   imagen: string | null
   ingredients?: RecipeIngredient[]
   steps?: RecipeStep[]
+  user_id: number
+
 }
 
 export type RecipeIngredient = {

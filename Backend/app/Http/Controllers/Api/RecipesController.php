@@ -73,7 +73,7 @@ class RecipesController extends Controller
 
         $recipe = $request->user()->recipes()->create([
             'title'       => $data['title'],
-            'description' => $data['description'] ?? null,
+            'description' => $data['description'] ?? '',
             'imagen'      => $data['imagen'] ?? null,
         ]);
 
@@ -188,6 +188,6 @@ class RecipesController extends Controller
 
     private function normalizeIngredientName(string $name): string
     {
-        return strtolower(str_replace(trim($name)));
+        return strtolower(trim($name));
     }
 }

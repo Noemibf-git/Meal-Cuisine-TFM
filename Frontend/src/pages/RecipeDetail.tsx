@@ -1,22 +1,39 @@
-import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router'
-import { getRecipe } from '../api/client'
-import type { Recipe } from '../types/recipe'
+import { useEffect, useState } from "react";
+import { useParams, Link, useNavigate } from "react-router";
+import { getRecipe, deleteRecipe } from "../api/client";
+import type { Recipe } from "../types/recipe";
+import { useAuth } from "../context/AuthContext";
 
 export default function RecipeDetail() {
-  const { id } = useParams()
-  const [recipe, setRecipe] = useState<Recipe | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const { id } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return
+    if (!id) return;
     getRecipe(Number(id))
       .then(setRecipe)
-      .catch(() => setError('No se ha podido cargar la receta'))
-  }, [id])
+      .catch(() => setError("No se ha podido cargar la receta"));
+  }, [id]);
 
-  if (error) return <p>{error}</p>
-  if (!recipe) return <p>Cargando…</p>
+  async function handleDelete() {
+    if (!id) return;
+    const ok = window.confirm("¿Seguro que quieres borrar esta receta?");
+    if (!ok) return;
+    try {
+      await deleteRecipe(Number(id));
+      navigate("/");
+    } catch {
+      setError("No se ha podido borrar la receta");
+    }
+  }
+  if (error) return <p>{error}</p>;
+  if (!recipe) return <p>Cargando…</p>;
+
+  const canDelete =
+    user !== null && (user.id === recipe.user_id || user.role === "admin");
 
   return (
     <article>
@@ -32,7 +49,8 @@ export default function RecipeDetail() {
           <ul>
             {recipe.ingredients.map((ingredient) => (
               <li key={ingredient.id}>
-                {ingredient.pivot.quantity} {ingredient.pivot.unit ?? ''} {ingredient.name}
+                {ingredient.pivot.quantity} {ingredient.pivot.unit ?? ""}{" "}
+                {ingredient.name}
               </li>
             ))}
           </ul>
@@ -49,6 +67,12 @@ export default function RecipeDetail() {
           </ol>
         </>
       ) : null}
+
+      {canDelete ? (
+        <button type="button" onClick={handleDelete}>
+          Borrar receta
+        </button>
+      ) : null}
     </article>
-  )
+  );
 }
