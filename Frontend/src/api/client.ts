@@ -1,5 +1,7 @@
 import type { AuthResponse, User } from "../types/User";
 import type { Recipe } from "../types/recipe";
+import type { Comment } from "../types/comment";
+
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -110,4 +112,24 @@ export async function deleteRecipe(id: number) {
   if (!response.ok) {
     throw new Error("No se ha podido borrar la receta");
   }
+}
+
+export async function getComments(recipeId: number) {
+  const response = await fetch(`${baseUrl}/recipes/${recipeId}/comments`)
+  if (!response.ok) {
+    throw new Error('No se han podido cargar los comentarios')
+  }
+  return response.json() as Promise<Comment[]>
+}
+
+export async function createComment(recipeId: number, content: string) {
+  const response = await fetch(`${baseUrl}/recipes/${recipeId}/comments`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({ content }),
+  })
+  if (!response.ok) {
+    throw new Error('No se ha podido publicar el comentario')
+  }
+  return response.json() as Promise<Comment>
 }
