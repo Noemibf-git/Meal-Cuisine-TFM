@@ -133,3 +133,16 @@ export async function createComment(recipeId: number, content: string) {
   }
   return response.json() as Promise<Comment>
 }
+
+export async function deleteComment(recipeId: number, commentId: number) {
+  const response = await fetch(
+    `${baseUrl}/recipes/${recipeId}/comments/${commentId}`,
+    {
+      method: 'DELETE',
+      headers: authHeaders(),
+    },
+  )
+  if (!response.ok) {
+    throw new Error('No se ha podido borrar el comentario')
+  }
+}

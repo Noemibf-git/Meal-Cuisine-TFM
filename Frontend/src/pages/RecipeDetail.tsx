@@ -5,6 +5,7 @@ import {
   deleteRecipe,
   getComments,
   createComment,
+  deleteComment,
 } from "../api/client";
 import type { Recipe } from "../types/recipe";
 import { useAuth } from "../context/AuthContext";
@@ -52,6 +53,17 @@ export default function RecipeDetail() {
       setContent("");
     } catch {
       setCommentError("No se ha podido publicar el comentario");
+    }
+  }
+  async function handleDeleteComment(commentId: number) {
+    if (!id) return;
+    const ok = window.confirm("¿Borrar este comentario?");
+    if (!ok) return;
+    try {
+      await deleteComment(Number(id), commentId);
+      setComments(comments.filter((comment) => comment.id !== commentId));
+    } catch {
+      setCommentError("No se ha podido borrar el comentario");
     }
   }
 
@@ -104,6 +116,15 @@ export default function RecipeDetail() {
               <strong>{comment.user?.username ?? "Usuario"}</strong>
               {": "}
               {comment.content}
+              {user &&
+              (user.id === comment.user_id || user.role === "admin") ? (
+                <button
+                  type="button"
+                  onClick={() => handleDeleteComment(comment.id)}
+                >
+                  Borrar
+                </button>
+              ) : null}
             </li>
           ))}
         </ul>
