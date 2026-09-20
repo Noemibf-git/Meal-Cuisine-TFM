@@ -1,0 +1,124 @@
+.hero {
+    background-color: #333;
+    background-image: url('../../public/imagenes/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    min-height: 15rem;
+    padding: 2rem 1rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: -1rem -1rem 1.5rem;
+}
+
+.heroTitle {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.heroText {
+    margin: 0;
+}
+
+
+
+
+.title {
+    margin: 0 0 1rem;
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.search {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 0 1.5rem;
+}
+
+.label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-weight: 500;
+}
+
+.input {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font: inherit;
+}
+
+.subtitle {
+    margin: 0 0 1rem;
+    font-size: 1.25rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.more {
+    border: none;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #a6acb3;
+    font: inherit;
+}
+
+.more:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.about {
+    padding: 0 0 1.5rem;
+}
+
+.aboutTitle {
+    text-align: center;
+    margin: 0 0 1rem;
+}
+
+.aboutText {
+    margin: 0;
+    text-align: justify;
+}
+
+@media (min-width: 48rem) {
+    .title {
+        font-size: 2.25rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 64rem) {
+    .grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    .hero {
+        margin: -1.5rem -2rem 2rem;
+    }
+
+    .heroTitle {
+        font-size: 2rem;
+    }
+
+    .aboutText {
+        text-align: center;
+        padding: 0 2rem;
+    }
+}
