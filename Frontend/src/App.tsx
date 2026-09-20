@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Routes, Route, Link } from "react-router";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,12 +11,16 @@ import styles from "./App.module.css";
 
 function App() {
   const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  function closeMenu() {
+    setMenuOpen(false);
+  }
   return (
     <>
       <div className={styles.layout}>
         <header className={styles.header}>
-          <Link to="/" className={styles.brand}>
+          <Link to="/" className={styles.brand} onClick={closeMenu}>
             <img
               className={styles.logo}
               src="/imagenes/logo.png"
@@ -25,33 +30,64 @@ function App() {
             />
             Meal Cuisine
           </Link>
-          <nav className={styles.nav}>
-            <Link to="/" className={styles.link}>
+          <button
+            type="button"
+            className={styles.menuBtn}
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          >
+            {menuOpen ? "Cerrar" : "Menú"}
+          </button>
+          <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
+            <button
+              type="button"
+              className={styles.closeBtn}
+              onClick={closeMenu}
+              aria-label="Cerrar menú"
+            >
+              ×
+            </button>
+            <Link to="/" className={styles.link} onClick={closeMenu}>
               Inicio
             </Link>
             {user ? (
               <>
                 <span className={styles.userName}>Hola, {user.username}</span>
-                <Link to="/recetas/nueva" className={styles.link}>
+                <Link
+                  to="/recetas/nueva"
+                  className={styles.link}
+                  onClick={closeMenu}
+                >
                   Nueva receta
                 </Link>
-                <Link to="/mis-recetas" className={styles.link}>
+                <Link
+                  to="/mis-recetas"
+                  className={styles.link}
+                  onClick={closeMenu}
+                >
                   Mis recetas
                 </Link>
                 <button
                   type="button"
                   className={styles.logout}
-                  onClick={() => logout()}
+                  onClick={() => {
+                    closeMenu();
+                    logout();
+                  }}
                 >
                   Salir
                 </button>
               </>
             ) : (
               <>
-                <Link to="/login" className={styles.link}>
+                <Link to="/login" className={styles.link} onClick={closeMenu}>
                   Entrar
                 </Link>
-                <Link to="/register" className={styles.link}>
+                <Link
+                  to="/register"
+                  className={styles.link}
+                  onClick={closeMenu}
+                >
                   Registro
                 </Link>
               </>
