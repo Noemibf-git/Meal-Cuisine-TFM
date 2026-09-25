@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { createRecipe } from "../api/client";
 import { useAuth } from "../context/AuthContext";
+import styles from "./CreateRecipe.module.css";
 
 type IngredientForm = {
   name: string;
@@ -26,7 +27,7 @@ export default function CreateRecipe() {
 
   if (!user) {
     return (
-      <p>
+      <p className={styles.notice}>
         Tienes que <Link to="/login">entrar</Link> para crear una receta.
       </p>
     );
@@ -85,33 +86,36 @@ export default function CreateRecipe() {
   }
 
   return (
-    <section>
-      <h1>Nueva receta</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
+    <section className={styles.section}>
+      <h1 className={styles.title}>Nueva receta</h1>
+      <form className={styles.form} onSubmit={handleSubmit}>
+        <label className={styles.label}>
           Título
           <input
+            className={styles.input}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             maxLength={35}
             required
           />
         </label>
-        <label>
+        <label className={styles.label}>
           Descripción
           <textarea
+            className={styles.textarea}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             maxLength={250}
           />
         </label>
 
-        <h2>Ingredientes</h2>
+        <h2 className={styles.subtitle}>Ingredientes</h2>
         {ingredients.map((ingredient, index) => (
-          <div key={index}>
-            <label>
+          <div key={index} className={styles.row}>
+            <label className={styles.label}>
               Nombre
               <input
+                className={styles.input}
                 value={ingredient.name}
                 onChange={(e) =>
                   updateIngredient(index, "name", e.target.value)
@@ -119,9 +123,10 @@ export default function CreateRecipe() {
                 required
               />
             </label>
-            <label>
+            <label className={styles.label}>
               Cantidad
               <input
+                className={styles.input}
                 type="number"
                 value={ingredient.quantity}
                 onChange={(e) =>
@@ -130,9 +135,10 @@ export default function CreateRecipe() {
                 required
               />
             </label>
-            <label>
+            <label className={styles.label}>
               Unidad
               <input
+                className={styles.input}
                 value={ingredient.unit}
                 onChange={(e) =>
                   updateIngredient(index, "unit", e.target.value)
@@ -141,7 +147,11 @@ export default function CreateRecipe() {
               />
             </label>
             {ingredients.length > 1 ? (
-              <button type="button" onClick={() => removeIngredient(index)}>
+              <button
+                type="button"
+                className={styles.remove}
+                onClick={() => removeIngredient(index)}
+              >
                 Quitar ingrediente
               </button>
             ) : null}
@@ -149,6 +159,7 @@ export default function CreateRecipe() {
         ))}
         <button
           type="button"
+          className={styles.add}
           onClick={() =>
             setIngredients([
               ...ingredients,
@@ -159,19 +170,24 @@ export default function CreateRecipe() {
           Añadir ingrediente
         </button>
 
-        <h2>Pasos</h2>
+        <h2 className={styles.subtitle}>Pasos</h2>
         {steps.map((step, index) => (
-          <div key={index}>
-            <label>
+          <div key={index} className={styles.row}>
+            <label className={styles.label}>
               Paso {index + 1}
               <textarea
+                className={styles.textarea}
                 value={step.description}
                 onChange={(e) => updateStep(index, e.target.value)}
                 required
               />
             </label>
             {steps.length > 1 ? (
-              <button type="button" onClick={() => removeStep(index)}>
+              <button
+                type="button"
+                className={styles.remove}
+                onClick={() => removeStep(index)}
+              >
                 Quitar paso
               </button>
             ) : null}
@@ -179,14 +195,19 @@ export default function CreateRecipe() {
         ))}
         <button
           type="button"
+          className={styles.add}
           onClick={() => setSteps([...steps, { description: "" }])}
         >
           Añadir paso
         </button>
 
-        {error ? <p>{error}</p> : null}
-        <Link to="/">Cancelar</Link>
-        <button type="submit">Crear receta</button>
+        {error ? <p className={styles.error}>{error}</p> : null}
+        <div className={styles.actions}>
+          <Link to="/" className={styles.cancel}>
+            Cancelar
+          </Link>
+          <button type="submit" className={styles.submit}>Crear receta</button>
+        </div>
       </form>
     </section>
   );
