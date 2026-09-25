@@ -4,6 +4,7 @@ import { getRecipes } from '../api/client'
 import type { Recipe } from '../types/recipe'
 import RecipeCard from '../components/RecipeCard'
 import { useAuth } from '../context/AuthContext'
+import styles from './MyRecipes.module.css'
 
 export default function MyRecipes() {
   const { user } = useAuth()
@@ -21,7 +22,7 @@ export default function MyRecipes() {
 
   if (!user) {
     return (
-      <p>
+      <p className={styles.notice}>
         Tienes que <Link to="/login">entrar</Link> para ver tus recetas.
       </p>
     )
@@ -34,16 +35,18 @@ export default function MyRecipes() {
 
   return (
     <section>
-      <h1>Mis recetas</h1>
+      <h1 className={styles.title}>Mis recetas</h1>
       {mine.length === 0 ? (
-        <p>
+        <p className={styles.empty}>
           Aún no has creado ninguna receta.{' '}
           <Link to="/recetas/nueva">Nueva receta</Link>
         </p>
       ) : (
-        mine.map((recipe) => (
+        <div className={styles.grid}>
+        {mine.map((recipe) => (
           <RecipeCard key={recipe.id} recipe={recipe} />
-        ))
+        ))}
+        </div>
       )}
     </section>
   )
