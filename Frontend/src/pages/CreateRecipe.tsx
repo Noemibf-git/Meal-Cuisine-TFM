@@ -183,7 +183,7 @@ export default function CreateRecipe() {
 
         <h2 className={styles.subtitle}>Pasos</h2>
         {steps.map((step, index) => (
-          <div key={index} className={styles.row}>
+          <div key={index} className={styles.stepRow}>
             <label className={styles.label}>
               Paso {index + 1}
               <textarea

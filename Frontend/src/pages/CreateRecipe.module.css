@@ -28,6 +28,8 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   font: inherit;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .textarea {
@@ -46,6 +48,8 @@
   padding: 0.75rem;
   background: #fafafa;
   border-radius: 8px;
+  width: 100%;
+  min-width: 0;
 }
 
 .add,
@@ -97,6 +101,14 @@
 
 .notice {
   text-align: center;
+}
+.stepRow {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #fafafa;
+  border-radius: 8px;
+  width: 100%;
 }
 
 @media (min-width: 48rem) {
