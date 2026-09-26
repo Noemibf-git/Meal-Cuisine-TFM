@@ -19,6 +19,7 @@ export default function CreateRecipe() {
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [imagen, setImagen] = useState("");
   const [ingredients, setIngredients] = useState<IngredientForm[]>([
     { name: "", quantity: "", unit: "" },
   ]);
@@ -68,6 +69,7 @@ export default function CreateRecipe() {
     try {
       const created = await createRecipe({
         title,
+        imagen: imagen.trim() === "" ? null : imagen.trim(),
         description: description.trim() === "" ? null : description,
         ingredients: ingredients.map((ingredient) => ({
           name: ingredient.name,
@@ -108,7 +110,16 @@ export default function CreateRecipe() {
             maxLength={250}
           />
         </label>
-
+        <label className={styles.label}>
+          URL de la foto (opcional)
+          <input
+            className={styles.input}
+            type="url"
+            value={imagen}
+            onChange={(e) => setImagen(e.target.value)}
+            placeholder="https://..."
+          />
+        </label>
         <h2 className={styles.subtitle}>Ingredientes</h2>
         {ingredients.map((ingredient, index) => (
           <div key={index} className={styles.row}>
@@ -206,7 +217,9 @@ export default function CreateRecipe() {
           <Link to="/" className={styles.cancel}>
             Cancelar
           </Link>
-          <button type="submit" className={styles.submit}>Crear receta</button>
+          <button type="submit" className={styles.submit}>
+            Crear receta
+          </button>
         </div>
       </form>
     </section>

@@ -82,6 +82,10 @@ export default function RecipeDetail() {
         </Link>
       </p>
       <h1 className={styles.title}>{recipe.title}</h1>
+      {recipe.imagen ? (
+        <img className={styles.photo} src={recipe.imagen} alt={recipe.title} />
+      ) : null}
+
       {recipe.description ? (
         <p className={styles.lead}>{recipe.description}</p>
       ) : null}

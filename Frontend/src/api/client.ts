@@ -91,6 +91,7 @@ export async function register(
 export async function createRecipe(payload: {
   title: string;
   description: string | null;
+  imagen: string | null;
   ingredients: { name: string; quantity: number; unit: string | null }[];
   steps: { step_number: number; description: string }[];
 }) {
