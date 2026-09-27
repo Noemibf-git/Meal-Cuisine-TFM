@@ -1,75 +1,42 @@
-# React + TypeScript + Vite
+# Meal Cuisine — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interfaz del TFM: recetas, comentarios, login y “mis recetas”.
 
-Currently, two official plugins are available:
+## Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React y TypeScript
+- Vite
+- React Router
+- CSS Modules
+- Vitest y React Testing Library
 
-## React Compiler
+## Qué hace
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Páginas para ver recetas, detalle con comentarios, crear receta (con URL de foto opcional), registro/login y listado de recetas propias. Habla con el backend Laravel (`VITE_API_URL`). Autenticación: token Sanctum en `localStorage` (no JWT). Estilos propios.
 
-## Expanding the ESLint configuration
+## Instalación (local)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Hace falta el backend en marcha (`php artisan serve`, puerto 8000) y MySQL en XAMPP.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+En esta carpeta, archivo `.env` (no se sube a git):
 
 ```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+VITE_API_URL=http://127.0.0.1:8000/api
 ```
+
+```bash
+npm install
+npm run dev
+```
+
+Se abre `http://localhost:5173/`. No se usa Apache para el front.
+
+Más detalle: README de la raíz del repositorio.
+
+## Tests
+
+```bash
+npm test
+```
+
+Prueba del componente `RecipeCard` (título y enlace al detalle).
