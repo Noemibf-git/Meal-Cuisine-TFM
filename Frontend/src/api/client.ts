@@ -29,7 +29,7 @@ export async function getRecipe(id: number) {
   if (!response.ok) {
     throw new Error("No se ha podido cargar la receta");
   }
-  return response.json();
+  return response.json() as Promise<Recipe>;;
 }
 
 export async function login(email: string, password: string) {
@@ -146,4 +146,25 @@ export async function deleteComment(recipeId: number, commentId: number) {
   if (!response.ok) {
     throw new Error('No se ha podido borrar el comentario')
   }
+}
+
+export async function updateRecipe(
+  id: number,
+  payload: {
+    title: string;
+    description: string | null;
+    imagen: string | null;
+    ingredients: { name: string; quantity: number; unit: string | null }[];
+    steps: { step_number: number; description: string }[];
+  },
+) {
+  const response = await fetch(`${baseUrl}/recipes/${id}`, {
+    method: "PUT",
+    headers: authHeaders(),
+    body: JSON.stringify(payload),
+  });
+  if (!response.ok) {
+    throw new Error("No se ha podido actualizar la receta");
+  }
+  return response.json() as Promise<Recipe>;
 }

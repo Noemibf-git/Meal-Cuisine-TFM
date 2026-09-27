@@ -70,7 +70,7 @@ export default function RecipeDetail() {
   }
 
   if (error) return <p className={styles.error}>{error}</p>;
-  if (!recipe) return <Loader/>;
+  if (!recipe) return <Loader />;
 
   const canDelete =
     user !== null && (user.id === recipe.user_id || user.role === "admin");
@@ -165,9 +165,16 @@ export default function RecipeDetail() {
       )}
 
       {canDelete ? (
-        <button type="button" onClick={handleDelete} className={styles.danger}>
-          Borrar receta
-        </button>
+        <div className={styles.ownerActions}>
+          <Link to={`/recetas/${recipe.id}/editar`} className={styles.edit}>Editar</Link>
+          <button
+            type="button"
+            onClick={handleDelete}
+            className={styles.danger}
+          >
+            Borrar receta
+          </button>
+       </div>
       ) : null}
     </article>
   );

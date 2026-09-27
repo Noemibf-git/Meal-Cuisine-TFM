@@ -8,6 +8,7 @@ import { useAuth } from "./context/AuthContext";
 import CreateRecipe from "./pages/CreateRecipe";
 import MyRecipes from "./pages/MyRecipes";
 import styles from "./App.module.css";
+import EditRecipe from "./pages/EditRecipe.tsx"
 
 function App() {
   const { user, logout } = useAuth();
@@ -99,8 +100,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/recetas/:id" element={<RecipeDetail />} />
             <Route path="/recetas/nueva" element={<CreateRecipe />} />
+            <Route path="/recetas/:id/editar" element={<EditRecipe />} />
             <Route path="/recetas/:id" element={<RecipeDetail />} />
             <Route path="/mis-recetas" element={<MyRecipes />} />
           </Routes>

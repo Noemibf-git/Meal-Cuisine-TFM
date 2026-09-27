@@ -133,3 +133,25 @@
   margin: 0 0 1rem;
   display: block;
 }
+
+.ownerActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.edit {
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  background-color: #569058;
+  font: inherit;
+}
+
+.edit:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
