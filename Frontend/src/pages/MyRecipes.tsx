@@ -5,6 +5,7 @@ import type { Recipe } from '../types/recipe'
 import RecipeCard from '../components/RecipeCard'
 import { useAuth } from '../context/AuthContext'
 import styles from './MyRecipes.module.css'
+import Loader from "../components/Loader";
 
 export default function MyRecipes() {
   const { user } = useAuth()
@@ -28,7 +29,7 @@ export default function MyRecipes() {
     )
   }
 
-  if (loading) return <p>Cargando…</p>
+  if (loading) return <Loader/>
   if (error) return <p>{error}</p>
 
   const mine = recipes.filter((recipe) => recipe.user_id === user.id)

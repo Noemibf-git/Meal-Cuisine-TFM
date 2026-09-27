@@ -3,6 +3,7 @@ import { getRecipes } from "../api/client";
 import type { Recipe } from "../types/recipe";
 import RecipeCard from "../components/RecipeCard";
 import styles from "./Home.module.css";
+import Loader from "../components/Loader";
 
 export default function Home() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -27,7 +28,7 @@ export default function Home() {
     recipe.title.toLowerCase().includes(query.trim().toLowerCase()),
   );
 
-  if (loading) return <p>Cargando…</p>;
+  if (loading) return <Loader/>;
   if (error) return <p>{error}</p>;
 
   const visible = showAll ? recipes : featured;

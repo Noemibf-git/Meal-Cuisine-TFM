@@ -11,6 +11,7 @@ import type { Recipe } from "../types/recipe";
 import { useAuth } from "../context/AuthContext";
 import type { Comment } from "../types/comment";
 import styles from "./RecipeDetail.module.css";
+import Loader from "../components/Loader";
 
 export default function RecipeDetail() {
   const { id } = useParams();
@@ -69,7 +70,7 @@ export default function RecipeDetail() {
   }
 
   if (error) return <p className={styles.error}>{error}</p>;
-  if (!recipe) return <p>Cargando…</p>;
+  if (!recipe) return <Loader/>;
 
   const canDelete =
     user !== null && (user.id === recipe.user_id || user.role === "admin");
