@@ -96,6 +96,8 @@ function App() {
           </nav>
         </header>
         <main className={styles.main}>
+          {/* /recetas/nueva y .../editar van ANTES de /recetas/:id
+          para que "nueva" no se tome como un id. */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />

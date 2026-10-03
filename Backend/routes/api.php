@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\UserController;
 
 // Rutas públicas
 //Limite de intentos para introducir contraseña
+// Fuera de Sanctum: listar recetas y ver comentarios. Dentro: crear, editar, borrar, comentar.
 Route::middleware('throttle:5,1')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);

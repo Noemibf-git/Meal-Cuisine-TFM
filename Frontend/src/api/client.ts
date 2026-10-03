@@ -5,6 +5,8 @@ import type { Comment } from "../types/comment";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
+// Sanctum: el token se guarda en localStorage tras el login.
+// Si hay token, las peticiones llevan Authorization Bearer (no JWT).
 function authHeaders(): HeadersInit {
   const token = localStorage.getItem("token");
   const headers: Record<string, string> = {

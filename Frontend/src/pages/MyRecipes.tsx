@@ -31,7 +31,8 @@ export default function MyRecipes() {
 
   if (loading) return <Loader/>
   if (error) return <p>{error}</p>
-
+  
+// El backend no tiene "mis recetas": se listan todas y se filtra por user_id.
   const mine = recipes.filter((recipe) => recipe.user_id === user.id)
 
   return (

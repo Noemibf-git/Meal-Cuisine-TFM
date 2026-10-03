@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/** POST de comentario con usuario autenticado (Sanctum). */
+
 class CommentApiTest extends TestCase
 {
     use RefreshDatabase;

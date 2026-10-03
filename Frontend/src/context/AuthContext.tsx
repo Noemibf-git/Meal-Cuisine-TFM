@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-
+// Al recargar la pagina, si hay token se pide GET /me para recuperar el usuario.
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (!token) return

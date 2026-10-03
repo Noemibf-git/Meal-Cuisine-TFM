@@ -105,6 +105,8 @@ class RecipesController extends Controller
     #[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
     #[OA\Response(response: 200, description: 'Receta actualizada')]
     #[OA\Response(response: 403, description: 'No autorizado')]
+
+    // Si vienen ingredientes/pasos, se sustituyen (detach / delete + volver a crear).
     public function update(Request $request, Recipe $recipe)
     {
         if ($recipe->user_id !== Auth::id() && Auth::user()->role !== 'admin'){

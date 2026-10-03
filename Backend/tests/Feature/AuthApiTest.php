@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+/** Login por API: email + password y respuesta con token Bearer (Sanctum, no JWT). */
+
 class AuthApiTest extends TestCase
 {
     use RefreshDatabase;

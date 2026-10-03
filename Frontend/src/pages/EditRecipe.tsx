@@ -30,6 +30,7 @@ export default function EditRecipe() {
   const [ready, setReady] = useState(false);
   const [ownerId, setOwnerId] = useState<number | null>(null);
 
+  // GET de la receta: el formulario usa strings; la API manda pivot.quantity (numero).
   useEffect(() => {
     if (!id) return;
     getRecipe(Number(id))
