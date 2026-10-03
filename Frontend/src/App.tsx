@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RecipeDetail from "./pages/RecipeDetail";
-import { useAuth } from "./context/AuthContext";
+import { useAuth } from "./context/useAuth";
 import CreateRecipe from "./pages/CreateRecipe";
 import MyRecipes from "./pages/MyRecipes";
 import styles from "./App.module.css";

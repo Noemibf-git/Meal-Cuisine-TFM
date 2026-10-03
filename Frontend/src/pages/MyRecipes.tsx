@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 import { getRecipes } from '../api/client'
 import type { Recipe } from '../types/recipe'
 import RecipeCard from '../components/RecipeCard'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/useAuth'
 import styles from './MyRecipes.module.css'
-import Loader from "../components/Loader";
+import Loader from '../components/Loader';
 
 export default function MyRecipes() {
   const { user } = useAuth()
@@ -31,7 +31,7 @@ export default function MyRecipes() {
 
   if (loading) return <Loader/>
   if (error) return <p>{error}</p>
-  
+
 // El backend no tiene "mis recetas": se listan todas y se filtra por user_id.
   const mine = recipes.filter((recipe) => recipe.user_id === user.id)
 

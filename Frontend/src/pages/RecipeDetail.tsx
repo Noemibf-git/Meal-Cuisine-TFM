@@ -8,7 +8,7 @@ import {
   deleteComment,
 } from "../api/client";
 import type { Recipe } from "../types/recipe";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 import type { Comment } from "../types/comment";
 import styles from "./RecipeDetail.module.css";
 import Loader from "../components/Loader";
