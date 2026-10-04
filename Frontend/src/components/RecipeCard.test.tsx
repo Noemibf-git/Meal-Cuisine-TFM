@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import RecipeCard from "./RecipeCard";
 import type { Recipe } from "../types/recipe";
+import { AuthContext } from "../context/useAuth";
 import {
   describe,
   expect,
@@ -16,11 +17,25 @@ const recipe: Recipe = {
   user_id: 2,
 };
 
+const guestAuth = {
+  user: null,
+  setUser: () => {},
+  logout: async () => {},
+};
+
+const userAuth = {
+  user: { id: 1, username: "Noe", email: "noe@test.com", role: "user" },
+  setUser: () => {},
+  logout: async () => {},
+};
+
 describe("RecipeCard", () => {
   it("debe mostrar el titulo y el enlace al detalle cuando recibe una receta", () => {
     render(
       <MemoryRouter>
-        <RecipeCard recipe={recipe} />
+        <AuthContext.Provider value={guestAuth}>
+          <RecipeCard recipe={recipe} />
+        </AuthContext.Provider>
       </MemoryRouter>,
     );
 
@@ -36,9 +51,11 @@ describe("RecipeCard", () => {
   it("debe mostrar la foto cuando la receta tiene imagen", () => {
     render(
       <MemoryRouter>
-        <RecipeCard
-          recipe={{ ...recipe, imagen: "https://ejemplo.com/foto.jpg" }}
-        />
+        <AuthContext.Provider value={guestAuth}>
+          <RecipeCard
+            recipe={{ ...recipe, imagen: "https://ejemplo.com/foto.jpg" }}
+          />
+        </AuthContext.Provider>
       </MemoryRouter>,
     );
     expect(screen.getByRole("img", { name: "Tortilla" })).toHaveAttribute(
@@ -50,10 +67,36 @@ describe("RecipeCard", () => {
   it("debe mostrar la descripcion cuando existe", () => {
     render(
       <MemoryRouter>
-        <RecipeCard recipe={recipe} />
+        <AuthContext.Provider value={guestAuth}>
+          <RecipeCard recipe={recipe} />
+        </AuthContext.Provider>
       </MemoryRouter>,
     );
 
     expect(screen.getByText("De patatas")).toBeInTheDocument();
+  });
+  it("debe dejar el corazon desactivado si no hay sesion", () => {
+    render(
+      <MemoryRouter>
+        <AuthContext.Provider value={guestAuth}>
+          <RecipeCard recipe={recipe} />
+        </AuthContext.Provider>
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("button", { name: "Añadir a favoritas" }),
+    ).toBeDisabled();
+  });
+  it("debe activar el corazon si hay sesion", () => {
+    render(
+      <MemoryRouter>
+        <AuthContext.Provider value={userAuth}>
+          <RecipeCard recipe={recipe} />
+        </AuthContext.Provider>
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("button", { name: "Añadir a favoritas" }),
+    ).toBeEnabled();
   });
 });

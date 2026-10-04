@@ -51,4 +51,10 @@ class User extends Authenticatable
     public function recipes(){
         return $this->hasMany(Recipe::class);
     }
+
+    // Tabla puente favorites: recetas que esta usuaria ha marcado (N:N).
+    public function favoriteRecipes()
+    {
+    return $this->belongsToMany(Recipe::class, 'favorites')->withTimestamps();
+    }
 }

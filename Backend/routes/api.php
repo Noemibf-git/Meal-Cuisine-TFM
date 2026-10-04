@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\IngredientController;
 use App\Http\Controllers\Api\RecipeStepController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\FavoriteController;
 
 
 // Rutas públicas
@@ -42,6 +43,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users/{user}', [UserController::class, 'show']);
     Route::put('/users/{user}', [UserController::class, 'update']);
     Route::delete('/users/{user}', [UserController::class, 'destroy']);
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/recipes/{recipe}/favorite', [FavoriteController::class, 'store']);
+    Route::delete('/recipes/{recipe}/favorite', [FavoriteController::class, 'destroy']);
 });
 
 // ── SOLO ADMIN ────────────────────────────────────────────

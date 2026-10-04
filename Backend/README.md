@@ -1,6 +1,6 @@
 # Meal Cuisine — Backend
 
-API del TFM: recetas, comentarios y autenticación.
+API del TFM: recetas, comentarios favoritos y autenticación.
 
 ## Tecnologías
 
@@ -11,7 +11,7 @@ API del TFM: recetas, comentarios y autenticación.
 
 ## Qué hace
 
-Expone rutas bajo `/api`: listar y ver recetas (público), login y registro, crear receta, comentarios (GET público, POST/DELETE con token). El frontend React consume esta API.
+Expone rutas bajo `/api`: listar y ver recetas (público), login y registro, crear receta, comentarios (GET público, POST/DELETE con token), favoritas GET /api/favorites, POST/DELETE /api/recipes/{id}/favorite (Sanctum). El frontend React consume esta API.
 
 ## Instalación (local)
 
@@ -36,7 +36,7 @@ El frontend se arranca aparte (`Frontend`, puerto 5173). Instrucciones juntas: R
 php artisan test --filter=ApiTest
 ```
 
-Una prueba Feature por recurso (recetas, auth, comentarios). Usan SQLite en memoria, no MySQL.
+Una prueba Feature por recurso (recetas, auth, comentarios y favoritas). Usan SQLite en memoria, no MySQL.
 
 ## Entorno local
 

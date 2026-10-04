@@ -1,6 +1,6 @@
 # Meal Cuisine
 
-Trabajo de Fin de Máster: aplicación de recetas y comentarios.
+Trabajo de Fin de Máster: aplicación de recetas, comentarios y favoritos.
 
 - Backend: Laravel 12 y Sanctum (token Bearer, no JWT).
 - Frontend: React, TypeScript y Vite.
@@ -62,11 +62,11 @@ npm run dev
 ```
 Se abre `http://localhost:5173/`. Hace falta tener a la vez `php artisan serve` (puerto 8000) y `npm run dev` (puerto 5173).
 
-El listado de recetas es público. Crear receta y comentar requieren iniciar sesión (el token se guarda en el navegador).
+El listado de recetas es público. Crear receta, comentar y marcar favoritos requieren iniciar sesión (el token se guarda en el navegador).
 
 ## Tests
 
-Pruebas de integración de la API (PHPUnit, Feature). Hay al menos una por recurso: recetas, autenticación y comentarios.
+Pruebas de integración de la API (PHPUnit, Feature). Hay al menos una por recurso: recetas, autenticación, comentarios y favoritas.
 
 ```bash
 cd Backend

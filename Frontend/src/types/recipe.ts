@@ -6,6 +6,7 @@ export type Recipe = {
   ingredients?: RecipeIngredient[]
   steps?: RecipeStep[]
   user_id: number
+  is_favorite?: boolean
 
 }
 

@@ -6,6 +6,8 @@ import {
   getComments,
   createComment,
   deleteComment,
+  addFavorite,
+  removeFavorite,
 } from "../api/client";
 import type { Recipe } from "../types/recipe";
 import { useAuth } from "../context/useAuth";
@@ -22,11 +24,15 @@ export default function RecipeDetail() {
   const [comments, setComments] = useState<Comment[]>([]);
   const [content, setContent] = useState("");
   const [commentError, setCommentError] = useState<string | null>(null);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     if (!id) return;
     getRecipe(Number(id))
-      .then(setRecipe)
+      .then((data) => {
+        setRecipe(data);
+        setIsFavorite(data.is_favorite === true);
+      })
       .catch(() => setError("No se ha podido cargar la receta"));
     getComments(Number(id))
       .then(setComments)
@@ -71,6 +77,20 @@ export default function RecipeDetail() {
 
   if (error) return <p className={styles.error}>{error}</p>;
   if (!recipe) return <Loader />;
+  async function handleFavorite() {
+    if (!user || !recipe) return;
+    try {
+      if (isFavorite) {
+        await removeFavorite(recipe.id);
+        setIsFavorite(false);
+      } else {
+        await addFavorite(recipe.id);
+        setIsFavorite(true);
+      }
+    } catch {
+      // El corazon no cambia si el API falla.
+    }
+  }
 
   const canDelete =
     user !== null && (user.id === recipe.user_id || user.role === "admin");
@@ -82,7 +102,18 @@ export default function RecipeDetail() {
           ← Volver
         </Link>
       </p>
-      <h1 className={styles.title}>{recipe.title}</h1>
+      <div className={styles.titleRow}>
+        <h1 className={styles.title}>{recipe.title}</h1>
+        <button
+          type="button"
+          className={`${styles.heart} ${isFavorite ? styles.heartOn : styles.heartOff}`}
+          disabled={!user}
+          onClick={handleFavorite}
+          aria-label={isFavorite ? "Quitar de favoritas" : "Añadir a favoritas"}
+        >
+          ♥
+        </button>
+      </div>
       {recipe.imagen ? (
         <img className={styles.photo} src={recipe.imagen} alt={recipe.title} />
       ) : null}
@@ -166,7 +197,9 @@ export default function RecipeDetail() {
 
       {canDelete ? (
         <div className={styles.ownerActions}>
-          <Link to={`/recetas/${recipe.id}/editar`} className={styles.edit}>Editar</Link>
+          <Link to={`/recetas/${recipe.id}/editar`} className={styles.edit}>
+            Editar
+          </Link>
           <button
             type="button"
             onClick={handleDelete}
@@ -174,7 +207,7 @@ export default function RecipeDetail() {
           >
             Borrar receta
           </button>
-       </div>
+        </div>
       ) : null}
     </article>
   );

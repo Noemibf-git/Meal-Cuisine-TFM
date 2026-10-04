@@ -1,6 +1,6 @@
 # Meal Cuisine — Frontend
 
-Interfaz del TFM: recetas, comentarios, login y “mis recetas”.
+Interfaz del TFM: recetas, comentarios, login, “mis recetas” y favoritas.
 
 ## Tecnologías
 
@@ -12,7 +12,7 @@ Interfaz del TFM: recetas, comentarios, login y “mis recetas”.
 
 ## Qué hace
 
-Páginas para ver recetas, detalle con comentarios, crear receta (con URL de foto opcional), registro/login y listado de recetas propias. Habla con el backend Laravel (`VITE_API_URL`). Autenticación: token Sanctum en `localStorage` (no JWT). Estilos propios.
+Páginas para ver recetas, detalle con comentarios, crear receta (con URL de foto opcional), registro/login, listado de recetas propias y listado de recetas favoritas. Habla con el backend Laravel (`VITE_API_URL`). Autenticación: token Sanctum en `localStorage` (no JWT). Estilos propios.
 
 ## Instalación (local)
 
@@ -39,4 +39,4 @@ Más detalle: README de la raíz del repositorio.
 npm test
 ```
 
-Prueba del componente `RecipeCard` (título y enlace al detalle).
+Prueba del componente `RecipeCard` (título y enlace al detalle, descripción, foto y corazón activado o desactivado).

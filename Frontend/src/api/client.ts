@@ -2,7 +2,6 @@ import type { AuthResponse, User } from "../types/User";
 import type { Recipe } from "../types/recipe";
 import type { Comment } from "../types/comment";
 
-
 const baseUrl = import.meta.env.VITE_API_URL;
 
 // Sanctum: el token se guarda en localStorage tras el login.
@@ -19,7 +18,9 @@ function authHeaders(): HeadersInit {
 }
 
 export async function getRecipes() {
-  const response = await fetch(`${baseUrl}/recipes`);
+  const response = await fetch(`${baseUrl}/recipes`, {
+    headers: authHeaders(),
+  });
   if (!response.ok) {
     throw new Error("No se han podido cargar las recetas");
   }
@@ -27,11 +28,13 @@ export async function getRecipes() {
 }
 
 export async function getRecipe(id: number) {
-  const response = await fetch(`${baseUrl}/recipes/${id}`);
+  const response = await fetch(`${baseUrl}/recipes/${id}`, {
+    headers: authHeaders(),
+  });
   if (!response.ok) {
     throw new Error("No se ha podido cargar la receta");
   }
-  return response.json() as Promise<Recipe>;;
+  return response.json() as Promise<Recipe>;
 }
 
 export async function login(email: string, password: string) {
@@ -118,35 +121,35 @@ export async function deleteRecipe(id: number) {
 }
 
 export async function getComments(recipeId: number) {
-  const response = await fetch(`${baseUrl}/recipes/${recipeId}/comments`)
+  const response = await fetch(`${baseUrl}/recipes/${recipeId}/comments`);
   if (!response.ok) {
-    throw new Error('No se han podido cargar los comentarios')
+    throw new Error("No se han podido cargar los comentarios");
   }
-  return response.json() as Promise<Comment[]>
+  return response.json() as Promise<Comment[]>;
 }
 
 export async function createComment(recipeId: number, content: string) {
   const response = await fetch(`${baseUrl}/recipes/${recipeId}/comments`, {
-    method: 'POST',
+    method: "POST",
     headers: authHeaders(),
     body: JSON.stringify({ content }),
-  })
+  });
   if (!response.ok) {
-    throw new Error('No se ha podido publicar el comentario')
+    throw new Error("No se ha podido publicar el comentario");
   }
-  return response.json() as Promise<Comment>
+  return response.json() as Promise<Comment>;
 }
 
 export async function deleteComment(recipeId: number, commentId: number) {
   const response = await fetch(
     `${baseUrl}/recipes/${recipeId}/comments/${commentId}`,
     {
-      method: 'DELETE',
+      method: "DELETE",
       headers: authHeaders(),
     },
-  )
+  );
   if (!response.ok) {
-    throw new Error('No se ha podido borrar el comentario')
+    throw new Error("No se ha podido borrar el comentario");
   }
 }
 
@@ -169,4 +172,36 @@ export async function updateRecipe(
     throw new Error("No se ha podido actualizar la receta");
   }
   return response.json() as Promise<Recipe>;
+}
+
+// Favoritas: siempre con Bearer (rutas Sanctum).
+
+export async function getFavorites() {
+  const response = await fetch(`${baseUrl}/favorites`, {
+    headers: authHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error("No se han podido cargar las favoritas");
+  }
+  return response.json() as Promise<Recipe[]>;
+}
+
+export async function addFavorite(id: number) {
+  const response = await fetch(`${baseUrl}/recipes/${id}/favorite`, {
+    method: "POST",
+    headers: authHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error("No se ha podido marcar la favorita");
+  }
+}
+
+export async function removeFavorite(id: number) {
+  const response = await fetch(`${baseUrl}/recipes/${id}/favorite`, {
+    method: "DELETE",
+    headers: authHeaders(),
+  });
+  if (!response.ok) {
+    throw new Error("No se ha podido quitar la favorita");
+  }
 }

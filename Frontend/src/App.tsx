@@ -8,7 +8,8 @@ import { useAuth } from "./context/useAuth";
 import CreateRecipe from "./pages/CreateRecipe";
 import MyRecipes from "./pages/MyRecipes";
 import styles from "./App.module.css";
-import EditRecipe from "./pages/EditRecipe.tsx"
+import EditRecipe from "./pages/EditRecipe.tsx";
+import Favorites from "./pages/Favorites";
 
 function App() {
   const { user, logout } = useAuth();
@@ -68,6 +69,13 @@ function App() {
                 >
                   Mis recetas
                 </Link>
+                <Link
+                  to="/favoritas"
+                  className={styles.link}
+                  onClick={closeMenu}
+                >
+                  Favoritas
+                </Link>
                 <button
                   type="button"
                   className={styles.logout}
@@ -106,6 +114,7 @@ function App() {
             <Route path="/recetas/:id/editar" element={<EditRecipe />} />
             <Route path="/recetas/:id" element={<RecipeDetail />} />
             <Route path="/mis-recetas" element={<MyRecipes />} />
+            <Route path="/favoritas" element={<Favorites />} />
           </Routes>
         </main>
         <footer className={styles.footer}>

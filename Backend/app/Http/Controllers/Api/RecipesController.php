@@ -16,9 +16,17 @@ class RecipesController extends Controller
      */
     #[OA\Get(path: '/api/recipes', summary: 'Listar todas las recetas', tags: ['Recetas'])]
     #[OA\Response(response: 200, description: 'Lista de recetas')]
-    public function index()
+    public function index(Request $request)
     {
-        return Recipe::with(['user:id,username', 'ingredients', 'steps'])->get();
+        $recipes = Recipe::with(['user:id,username', 'ingredients', 'steps'])->get();
+        $user = $request->user('sanctum');
+        $favoriteIds = $user
+            ? $user->favoriteRecipes()->pluck('recipes.id')
+            : collect();
+        return $recipes->map(function (Recipe $recipe) use ($favoriteIds) {
+            $recipe->setAttribute('is_favorite', $favoriteIds->contains($recipe->id));
+            return $recipe;
+        });
 
     }
 
@@ -92,10 +100,18 @@ class RecipesController extends Controller
     #[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
     #[OA\Response(response: 200, description: 'Receta encontrada')]
     #[OA\Response(response: 404, description: 'No encontrada')]
-    public function show(Recipe $recipe)
+    public function show(Request $request, Recipe $recipe)
     {
-        return $recipe->load(['user:id,username', 'ingredients', 'steps']);
+        $recipe->load(['user:id,username', 'ingredients', 'steps']);
 
+        $user = $request->user('sanctum');
+        $recipe->setAttribute(
+            'is_favorite',
+            $user
+                ? $user->favoriteRecipes()->where('recipes.id', $recipe->id)->exists()
+                : false,
+        );
+        return $recipe;
     }
 
     /**
